@@ -1,0 +1,13 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+configMapGenerator:
+  - name: config-envoy
+    files:
+      - envoy.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    type: generated
+  annotations:
+    note: generated
