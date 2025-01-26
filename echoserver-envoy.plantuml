@@ -1,0 +1,11 @@
+@startuml echoserver-envoy
+
+frame "echoserver-deployment" {
+    frame "pod" {
+        node envoy
+        node "echo-server"
+        envoy --> "echo-server" : 80
+    }
+}
+
+@enduml

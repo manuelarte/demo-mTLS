@@ -1,4 +1,4 @@
-# mTLS Tutorial
+# 🔒 mTLS Tutorial
 
 In this tutorial I am going to show how to configue mTLS between two services
 
@@ -9,7 +9,7 @@ This tutorial is going to use [minikube][1] to deploy the services. So make sure
 <details>
     <summary>Run minikube</summary>
 
-```
+```shell
 > minikube start
 > kubectl config get-contexts
 > kubectl config set-context minikube
@@ -17,20 +17,32 @@ This tutorial is going to use [minikube][1] to deploy the services. So make sure
 </details>
 
 
-## Deployment an echo server 
+## 🗣 Deployment an echo-server 
 
-Let's deploy the [echo-server](https://hub.docker.com/r/ealen/echo-server)
-
+Let's deploy an [echo-server](https://hub.docker.com/r/ealen/echo-server)
+```shell
 > kubectl apply -k ./echoserver
 > minikube tunnel
+```
 
-This creates a Kubernetes ConfigMap, Deployment and Service. Then the echoserver will be available at [http://localhost:8082](http://localhost:8082).
+This creates a Kubernetes `ConfigMap, Deployment and Service`. 
 
-## Resources
+Before we explain what we made, let's check that we can access the echo-server directly, without [mTLS][4], at [localhost:8082](http://localhost:8082).
+
+### Echo-server Configuration
+
+TODO: PlantUml of what it's deployed
+
+![](./echoserver_envoy.svg)
+
+## 📘 Resources
 
 - [minikube][1]
+- [kubectl][2]
 - [kustomize][3]
+- [mTLS][4]
 
 [1]: https://minikube.sigs.k8s.io/docs/
 [2]: https://kubernetes.io/docs/reference/kubectl/
 [3]: https://kustomize.io/
+[4]: https://en.wikipedia.org/wiki/Mutual_authentication
