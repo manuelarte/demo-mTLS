@@ -28,6 +28,7 @@ Let's deploy an [echo-server](https://hub.docker.com/r/ealen/echo-server)
 This creates a Kubernetes `ConfigMap, Deployment and Service`. 
 
 Before we explain what we made, let's check that we can access the echo-server directly, without [mTLS][4], at [localhost:8082](http://localhost:8082).
+And with mTLS at 
 
 ### Echo-server Configuration
 

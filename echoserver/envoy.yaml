@@ -5,7 +5,7 @@ admin:
       port_value: 9901
 static_resources:
   listeners:
-    - name: listener_0
+    - name: echoserver-listener
       address:
         socket_address:
           address: 0.0.0.0
@@ -25,33 +25,25 @@ static_resources:
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
                 route_config:
-                  name: local_route
+                  name: echoserver-route
                   virtual_hosts:
-                    - name: local_service
+                    - name: echoserver
                       domains: ["*"]
                       routes:
                         - match:
                             prefix: "/"
                           route:
-                            host_rewrite_literal: www.envoyproxy.io
-                            cluster: service_envoyproxy_io
-
+                            cluster: echoserver-cluster
   clusters:
-    - name: service_envoyproxy_io
-      type: LOGICAL_DNS
-      # Comment out the following line to test on v6 networks
-      dns_lookup_family: V4_ONLY
+    - name: echoserver-cluster
+      type: STRICT_DNS
+      lb_policy: ROUND_ROBIN
       load_assignment:
-        cluster_name: service_envoyproxy_io
+        cluster_name: echoserver
         endpoints:
           - lb_endpoints:
               - endpoint:
                   address:
                     socket_address:
-                      address: www.envoyproxy.io
-                      port_value: 443
-      transport_socket:
-        name: envoy.transport_sockets.tls
-        typed_config:
-          "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
-          sni: www.envoyproxy.io
+                      address: localhost
+                      port_value: 80
