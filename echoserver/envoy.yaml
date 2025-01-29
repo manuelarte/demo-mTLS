@@ -15,15 +15,13 @@ static_resources:
             - name: envoy.filters.network.http_connection_manager
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                http_protocol_options:
+                  accept_http_10: true
                 stat_prefix: ingress_http
                 access_log:
                   - name: envoy.access_loggers.stdout
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog
-                http_filters:
-                  - name: envoy.filters.http.router
-                    typed_config:
-                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
                 route_config:
                   name: echoserver-route
                   virtual_hosts:
@@ -34,6 +32,25 @@ static_resources:
                             prefix: "/"
                           route:
                             cluster: echoserver-cluster
+                http_filters:
+                  - name: envoy.filters.http.router
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              require_client_certificate: true
+              common_tls_context:
+                validation_context:
+                  trusted_ca:
+                    filename: /etc/certs/ca.crt
+                tls_certificates:
+                  - certificate_chain:
+                      filename: /etc/certs/cert.pem
+                    private_key:
+                      filename: /etc/certs/key.pem
+
   clusters:
     - name: echoserver-cluster
       type: STRICT_DNS

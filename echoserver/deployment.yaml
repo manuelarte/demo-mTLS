@@ -21,10 +21,12 @@ spec:
             - containerPort: 80
               name: http-web-svc
         - name: sidecar
-          image: envoyproxy/envoy:dev-8a5f7cf314638ceac6c7e903222bab436c84c41f
+          image: envoyproxy/envoy:v1.29-latest
           volumeMounts:
             - name: config-envoy-vol
               mountPath: /etc/envoy
+            - name: envoy-mtls-ca-vol
+              mountPath: /etc/certs/
       volumes:
         - name: config-envoy-vol
           configMap:
@@ -32,3 +34,6 @@ spec:
             items:
               - key: envoy.yaml
                 path: envoy.yaml
+        - name: envoy-mtls-ca-vol
+          secret:
+            secretName: envoy-mtls-ca-secret

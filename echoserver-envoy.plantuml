@@ -1,11 +1,20 @@
 @startuml echoserver-envoy
 
-frame "echoserver-deployment" {
-    frame "pod" {
-        node envoy
-        node "echo-server"
-        envoy --> "echo-server" : 80
+package Minikube {
+
+    frame "echoserver-deployment" {
+        frame "pod" {
+            node envoy
+            node "echo-server"
+            envoy --> "echo-server" : 80
+        }
     }
+
+    frame "services" {
+        "echoserver-direct-service" --> "echo-server" : 8082
+        "echoserver-envoy-service" --> "envoy" : 8080
+    }
+
 }
 
 @enduml

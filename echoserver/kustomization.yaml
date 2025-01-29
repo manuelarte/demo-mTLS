@@ -5,6 +5,12 @@ configMapGenerator:
   - name: config-envoy
     files:
       - envoy.yaml
+secretGenerator:
+  - name: envoy-mtls-ca-secret
+    files:
+      - certs/ca.crt
+      - certs/cert.pem
+      - certs/key.pem
 generatorOptions:
   disableNameSuffixHash: true
   labels:
