@@ -1,0 +1,25 @@
+@startuml echoserver
+
+actor user
+
+package Minikube {
+
+    frame "echoserver-deployment" {
+        frame "pod" {
+            node "envoy"
+            node "echo-server"
+
+            envoy --> "echo-server" : 80
+        }
+    }
+
+    frame "services" {
+        node "echoserver-envoy-service"
+        "echoserver-envoy-service" --> "envoy" : 8080:8080
+    }
+
+    user --> "echoserver-envoy-service": 8082
+
+}
+
+@enduml

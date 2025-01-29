@@ -1,0 +1,9 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    type: generated
+  annotations:
+    note: generated

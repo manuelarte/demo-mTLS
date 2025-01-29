@@ -1,0 +1,22 @@
+@startuml echoserver
+
+actor user
+
+package Minikube {
+
+    frame "echoserver-deployment" {
+        frame "pod" {
+            node "echo-server"
+        }
+    }
+
+    frame "services" {
+        node "echoserver-direct-service"
+        "echoserver-direct-service" --> "echo-server" : 8082:80
+    }
+
+    user -- "echoserver-direct-service": 8082
+
+}
+
+@enduml

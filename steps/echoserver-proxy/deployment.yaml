@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echoserver-deployment
+  labels:
+    app: echoserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echoserver
+  template:
+    metadata:
+      labels:
+        app: echoserver
+    spec:
+      containers:
+        - name: echoserver
+          image: ealen/echo-server:latest
+          ports:
+            - containerPort: 80
+              name: http-web-svc
+        - name: sidecar
+          image: envoyproxy/envoy:v1.29-latest
+          ports:
+            - containerPort: 8080
+              name: http-web-envoy
+          volumeMounts:
+            - name: config-envoy-vol
+              mountPath: /etc/envoy
+      volumes:
+        - name: config-envoy-vol
+          configMap:
+            name: config-envoy
+            items:
+              - key: envoy.yaml
+                path: envoy.yaml
