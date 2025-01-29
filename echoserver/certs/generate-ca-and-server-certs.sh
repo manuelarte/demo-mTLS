@@ -10,6 +10,6 @@ openssl req -x509 -new -nodes -key "ca.key" -sha256 -days 365 -out "ca.crt" -sub
 echo "Generate server side key and certificate"
 openssl req -nodes -x509 -sha256 -newkey rsa:4096 \
       -keyout key.pem \
-      -subj /C=NL/ST=NH/O=ING/CN=echoserver-envoy-service \
+      -subj /C=NL/ST=NH/O=manuelarte/CN=echoserver-envoy-service \
       -out cert.pem \
       -addext subjectAltName=DNS:echoserver-envoy-service
